@@ -244,7 +244,7 @@ jobs:
         env:
           releaseId: ${{ needs.createrelease.outputs.releaseId }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GHTOKENWORKFLOW }}
           script: |
             const releaseId = process.env.releaseId
             const assetPath = '${{ matrix.name }}.zip'
