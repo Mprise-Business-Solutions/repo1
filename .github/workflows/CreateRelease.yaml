@@ -35,8 +35,8 @@ on:
         description: Direct COMMIT (Y/N)
         required: false
         default: 'N'
-      useGhTokenWorkflow:
-        description: Use GhTokenWorkflow for Pull Request/COMMIT
+      useGITHUB_TOKEN:
+        description: Use GITHUB_TOKEN for Pull Request/COMMIT
         type: boolean
 
 permissions:
@@ -186,7 +186,7 @@ jobs:
         env:
           bodyMD: ${{ steps.createreleasenotes.outputs.releaseNotes }}
         with:
-          github-token: ${{ secrets.GHTOKENWORKFLOW }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             var bodyMD = process.env.bodyMD
             const createReleaseResponse = await github.rest.repos.createRelease({
@@ -244,7 +244,7 @@ jobs:
         env:
           releaseId: ${{ needs.createrelease.outputs.releaseId }}
         with:
-          github-token: ${{ secrets.GHTOKENWORKFLOW }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const releaseId = process.env.releaseId
             const assetPath = '${{ matrix.name }}.zip'
@@ -320,7 +320,7 @@ jobs:
           shell: powershell
           gitHubSecrets: ${{ toJson(secrets) }}
           getSecrets: 'TokenForPush'
-          useGhTokenWorkflowForPush: '${{ github.event.inputs.useGhTokenWorkflow }}'
+          useGITHUB_TOKENForPush: '${{ github.event.inputs.useGITHUB_TOKEN }}'
 
       - name: Update Version Number
         uses: microsoft/AL-Go-Actions/IncrementVersionNumber@v4.0
